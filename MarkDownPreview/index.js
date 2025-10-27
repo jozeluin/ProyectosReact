@@ -1,10 +1,19 @@
+
+
+
 const App = () => {
+  
  
-
- 
-
   return (
-   <div>MarkDownPreview</div>
+   <div>
+    <div  id="editorWrap" >
+      <textarea className="d-block"  id="editor" type="text" resize="vertical" rows="20" cols="50"></textarea>
+    </div>
+    <div id="markdownPreview">
+      <textarea className="d-block" id="editor" type="text" resize="vertical" rows="20" cols="50"></textarea>
+    </div>
+  </div>
+   
   );
 };
 

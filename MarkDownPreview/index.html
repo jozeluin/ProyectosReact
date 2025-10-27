@@ -16,10 +16,12 @@
     <!-- Babel trasnspilador para poder usar JSX en el navegador --> 
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <!--  -->
+    
     <title>MarkDownPreview</title>
 </head>
 <body>
     <div id="app"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/2.0.3/marked.min.js"></script>
     <!-- para que funcione el JSX en el navegador, se debe usar type="text/babel"
      y el script debe ir al final del body para que el DOM este cargado -->
     <script type="text/babel" src="./index.js"></script>
