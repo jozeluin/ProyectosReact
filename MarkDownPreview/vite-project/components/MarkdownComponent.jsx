@@ -1,22 +1,22 @@
 import ReactMarkdown from "react-markdown";
 
-const markdownText = `
-# React Markdown Example
+// const markdownText = `
+// # React Markdown Example
 
-- Some text
-- Some other text
+// - Some text
+// - Some other text
 
-## Subtitle
+// ## Subtitle
 
-### Additional info
+// ### Additional info
 
-This is a [link](https://github.com/remarkjs/react-markdown)
-`;
+// This is a [link](https://github.com/remarkjs/react-markdown)
+// `;
 
-function MarkdownComponent() {
+function MarkdownComponent({text_markdown}) {
   return (
     <section>
-      <ReactMarkdown>{markdownText}</ReactMarkdown>
+      <ReactMarkdown>{text_markdown}</ReactMarkdown>
     </section>
   );
 }
