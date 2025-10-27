@@ -1,9 +1,8 @@
-import { marked } from "marked";
 import React, { useState } from 'react';
-const App = () => {
-  const [markdown, setMarkdown] = useState(
-    "# ¡Hola Mundo!\n\nEste es un **ejemplo**."
-  );
+import { marked } from 'marked';
+
+function MarkdownPreviewer() {
+  const [markdown, setMarkdown] = useState('# ¡Hola Mundo!\n\nEste es un **ejemplo**.');
 
   // Convierte el markdown a HTML
   const html = marked.parse(markdown);
@@ -12,7 +11,6 @@ const App = () => {
     <div>
       {/* Área para editar el markdown */}
       <textarea
-      height="300"
         value={markdown}
         onChange={(e) => setMarkdown(e.target.value)}
       />
@@ -21,6 +19,6 @@ const App = () => {
       <div dangerouslySetInnerHTML={{ __html: html }} />
     </div>
   );
-};
+}
 
-ReactDOM.render(<App />, document.getElementById("app"));
+export default MarkdownPreviewer;
