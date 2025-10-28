@@ -1,4 +1,5 @@
 import ReactMarkdown from "react-markdown";
+import style from './markdown-styles.module.css';
 
 // const markdownText = `
 // # React Markdown Example
@@ -16,7 +17,10 @@ import ReactMarkdown from "react-markdown";
 function MarkdownComponent({text_markdown}) {
   return (
     <section>
-      <ReactMarkdown>{text_markdown}</ReactMarkdown>
+      <div className={style.reactMarkDown}>
+        <ReactMarkdown  >{text_markdown}</ReactMarkdown>
+      </div>
+      
     </section>
   );
 }
