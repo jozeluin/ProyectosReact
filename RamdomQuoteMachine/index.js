@@ -43,13 +43,13 @@ const App = () => {
                 className="btn btn-info mx-2"
                 id="tweet-quote"
               >
-                <i class="fa-brands fa-twitter"></i>
+                <i className="fa-brands fa-twitter"></i>
               </a>
 
              
               <a href={`https://www.tumblr.com/widgets/share/tool?posttype=quote&tags=,&caption=${randomQuote.author}&content=${randomQuote.quote}&canonicalUrl=https%3A%2F%2Fwww.tumblr.com%2Fbuttons&shareSource=tumblr_share_button
 randomQuote.quote)}`}className="btn btn-danger">
-                <i class="fa-brands fa-tumblr"></i>
+                <i className="fa-brands fa-tumblr"></i>
               </a>
             </div>
           </div>
