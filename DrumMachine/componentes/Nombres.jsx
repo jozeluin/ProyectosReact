@@ -2,7 +2,7 @@ import React from 'react'
 
 const Nombres = ({nombre}) => {
   return (
-    <div>Mi mombre es nombre: {nombre}</div>
+    <div className="text-primary">Mi mombre es nombre: {nombre}</div>
   )
 }
 
