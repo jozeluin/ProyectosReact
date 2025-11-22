@@ -1,13 +1,18 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
-import Nombres from "../../componentes/Nombres";
+import { Keyboard } from "../../componentes/Keyboard";
+import play from "../../componentes/play";
+
+
+
 
 function App() {
   return (
     <>
-      <button className="btn btn-primary">Este es mi boton</button>
-      <Nombres nombre="Juan" />
-
+        <div className="text-end" id="drum-machine">
+          <Keyboard play={play}/>
+        </div>
+     
     </>
   );
 }
