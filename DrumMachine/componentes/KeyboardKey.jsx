@@ -2,6 +2,10 @@ import React, { useEffect } from 'react'
 
 const KeyboardKey = ({play, sound:{id,key,url,keyCode}}) => {
 
+    /**
+     * Captura el evento de tecla presionada
+     * @param {} event Es el evento de tecla
+     */
     const handleKeyPress = (event) => {
         if(event.keyCode === keyCode){
             play(key,id);
@@ -17,7 +21,7 @@ const KeyboardKey = ({play, sound:{id,key,url,keyCode}}) => {
 
 
   return (
-       <button className='drum-pad' onClick={() => play(key,id)}>
+       <button className='drum-pad' id={id}  onClick={() => play(key,id)}>
         <audio className="clip" id={key} src={url}/>
         {key}
     </button>

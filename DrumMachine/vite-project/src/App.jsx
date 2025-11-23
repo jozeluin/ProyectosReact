@@ -129,12 +129,26 @@ const soundsGroup = {
 };
 
 const App = () => {
+  const [power, setPower] = useState(true);
+  const [volume, setVolume] = useState(1);
   const [soundName, setSoundName] = useState("");
-
   const [soundType, setSoundType] = useState("heaterKit");
-
   const [sounds, setSounds] = useState(soundsGroup[soundType]);
 
+  const stop=()=>{
+    setPower(!power);
+    
+  }
+
+  const handVolumeChange = (event) => {
+    setVolume(event.target.value);
+  }
+
+  /**
+   * Lo que hace que suene el audio
+   * @param {*} key La tecla del audio
+   * @param {*} sound Es el id, el nombre del sonido
+   */
   const play = (key,sound) => {
     setSoundName(sound);
     const audio = document.getElementById(key);
@@ -143,6 +157,7 @@ const App = () => {
   };
 
   const ChangeSoundsGroup = () => {
+    setSoundName("");
     if (soundType === "heaterKit") {
       setSoundType("smoothPianoKit");
       setSounds(soundsGroup.smoothPianoKit);
@@ -152,12 +167,26 @@ const App = () => {
     }
   };
 
+  const setkeyVolume = () => {
+    const audios=sounds.map(sound=>document.getElementById(sound.key));
+    audios.forEach(audio=>{
+      if(audio){
+        audio.volume=volume;
+      }
+    });
+  }
+
   return (
     <>
       <div className="text-center" id="drum-machine">
-        <Keyboard play={play} sounds={sounds} />
+        {setkeyVolume()}
+        <Keyboard power={power} play={play} sounds={sounds} />
         <DumControle
-          name={soundName ||soundsName[soundType]}
+          stop={stop}
+          power={power}
+          volume={volume}
+          handVolumeChange={handVolumeChange}
+          name={soundName ||soundsName[soundType] }//tiene prioridad soundName
           ChangeSoundsGroup={ChangeSoundsGroup}
         />
       </div>

@@ -4,11 +4,14 @@ import KeyboardKey from './KeyboardKey';
 
 
 
-export const Keyboard = ({play,sounds}) => {
- return sounds.map((sound) => (
-    <KeyboardKey play={play} sound={sound}/>
-  
+export const Keyboard = ({power,play,sounds}) => {
+ return (
+     power ? sounds.map((sound) =>  <KeyboardKey play={play} sound={sound}/> )
+   : sounds.map((sound) =>  <KeyboardKey play={play} sound={{...sound, url: "#"}} /> ) //Tranforma
+   //la url en un "#" que esta vacio
+ )
  
- ))
+
+
 
 }
