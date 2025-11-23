@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 
-const KeyboardKey = ({play, sound:{key,url,keyCode}}) => {
+const KeyboardKey = ({play, sound:{id,key,url,keyCode}}) => {
 
     const handleKeyPress = (event) => {
         if(event.keyCode === keyCode){
-            play(key);
+            play(key,id);
         }   
     }
 
@@ -17,7 +17,7 @@ const KeyboardKey = ({play, sound:{key,url,keyCode}}) => {
 
 
   return (
-       <button className='drum-pad' onClick={() => play(key)}>
+       <button className='drum-pad' onClick={() => play(key,id)}>
         <audio className="clip" id={key} src={url}/>
         {key}
     </button>
