@@ -1,8 +1,9 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
-import { Keyboard } from "../../componentes/Keyboard";
-import DumControle from "../../componentes/DumControle";
+
+import DumControle from "../componentes/DumControle";
 import { useState } from "react";
+import { Keyboard } from "../componentes/Keyboard";
 
 const firstSoundsGroup = [
   {
@@ -178,9 +179,10 @@ const App = () => {
 
   return (
     <>
-      <div className="text-center" id="drum-machine">
+      <div className="d-flex justify-content-center mt-5 " id="drum-machine">
         {setkeyVolume()}
-        <Keyboard power={power} play={play} sounds={sounds} />
+       <div className="border border-primary">
+         <Keyboard  power={power} play={play} sounds={sounds} />
         <DumControle
           stop={stop}
           power={power}
@@ -189,6 +191,8 @@ const App = () => {
           name={soundName ||soundsName[soundType] }//tiene prioridad soundName
           ChangeSoundsGroup={ChangeSoundsGroup}
         />
+       </div>
+       
       </div>
     </>
   );
