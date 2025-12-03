@@ -1,9 +1,10 @@
-.display {
+.miTecla {
   border: 2px solid red;
   box-sizing: content-box;
+  width: auto;
+  height: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 5px;
-  width: 100px;
 }

@@ -1,15 +1,14 @@
-import { useState } from 'react'
+import "bootstrap/dist/js/bootstrap.min.js";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-import './App.css'
-
+import Tecla from "./components/tecla";
+import Teclado from "./components/Teclado";
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-  
+      <Teclado />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
