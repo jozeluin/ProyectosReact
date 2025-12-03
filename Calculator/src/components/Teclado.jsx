@@ -4,12 +4,19 @@ import "../App.css";
 import { useState } from "react";
 
 const Teclado = () => {
-  const [numArray, setNumArray] = useState([""]);
+  let id=0
+  const tipoNum={
+    numero:0,
+    signo:"+",
+    id:id
+  }
+ 
+  const [numArray, setNumArray] = useState([tipoNum]);
 
   const [numero1, setNumero1] = useState(0);
 
   const agregarCarcter = (simbolo) => {
-   setNumArray([...numArray, simbolo]);
+   setNumArray([...numArray, {numero:simbolo,id:id++}]);
 
   };
 
@@ -24,10 +31,10 @@ const Teclado = () => {
   return (
     <>
       <div id="result" className="display">
-        I {numero1}
+        {numero1}
       </div>
-      <div id="operacion" className="display">Stg
-        {numArray}
+      <div id="operacion" className="display">
+        {numArray.simbolo}
       </div>
       <div className="rejilla">
         <Tecla simbolo={"Ac"} pulsa={() => setNumArray([])} />
