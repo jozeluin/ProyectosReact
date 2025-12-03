@@ -3,30 +3,55 @@ import Tecla from "./tecla";
 import "../App.css";
 import { useState } from "react";
 
+let letId = 0;
 const Teclado = () => {
-  let id=0
-  const tipoNum={
-    numero:0,
-    signo:"+",
-    id:id
-  }
- 
-  const [numArray, setNumArray] = useState([tipoNum]);
+  // const tipoNum={
+  //   numero:0,
+  //   signo:"+",
+  //   id:1
+  // }
 
+  const [numArray, setNumArray] = useState([]);
   const [numero1, setNumero1] = useState(0);
+  const [numeroUnido, setNumeroUnido]=useState(0)
+
+  const addNumeroEntero=(NumeroUnido)=>{
+    console.log("NumeroUnido en addNumeroEntero",NumeroUnido )
+    setNumeroUnido(NumeroUnido)}
+
+  
+
+  const addNumer = (newNumber) => {
+    setNumArray([...numArray, newNumber]);
+
+    let numeroEntero=[]
+    numArray.map((object)=>{
+      console.log("object de addNumber",object)
+      numeroEntero.push(object.numero)
+
+    })
+    console.log("addNumer",numeroEntero)
+    addNumeroEntero(parseInt(numeroEntero.join('')))
+  };
 
   const agregarCarcter = (simbolo) => {
-   setNumArray([...numArray, {numero:simbolo,id:id++}]);
-
+    const numAgregar = { id: letId++, numero: simbolo };
+    addNumer(numAgregar);
   };
 
   const sumar = () => {
-    
-    setNumero1(parseInt(numArray.join(''),10))
-    setNumArray("+")
-
+    setNumero1(parseInt(numArray.join(""), 10));
+    setNumArray("+");
   };
-  
+
+  // numArray.map((numero)=>{
+  //   let numeroJuntos=[]
+  //   numeroJuntos.push(numero)
+  //   console.log(numeroJuntos)
+
+  // })
+  console.log(numArray)
+  console.log("Este es numero Unido",numeroUnido)
 
   return (
     <>
@@ -34,7 +59,7 @@ const Teclado = () => {
         {numero1}
       </div>
       <div id="operacion" className="display">
-        {numArray.simbolo}
+       {numeroUnido}
       </div>
       <div className="rejilla">
         <Tecla simbolo={"Ac"} pulsa={() => setNumArray([])} />
