@@ -3,10 +3,11 @@ import "bootstrap/dist/js/bootstrap.min.js";
 import  './Tecla.css'
 
 const Tecla = ({simbolo,pulsa}) => {
-  const misimbolo=simbolo
+  
 
   const handClick=()=>{
-    pulsa(misimbolo)
+    console.log("pulso tecla",simbolo)
+    pulsa(simbolo)
   }
 
   return (

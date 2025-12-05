@@ -1,9 +1,12 @@
 import "./Teclado.css";
 import Tecla from "./tecla";
 import "../App.css";
-import { useState } from "react";
 
-let letId = 0;
+import Hijo from "./Hijo";
+import { useState } from "react";
+//^[+-]?\d+(\.\d+)?$ expresion regular para busca un numbero precedido o no por un signo
+let idx = 0;
+
 const Teclado = () => {
   // const tipoNum={
   //   numero:0,
@@ -12,73 +15,54 @@ const Teclado = () => {
   // }
 
   const [numArray, setNumArray] = useState([]);
-  const [numero1, setNumero1] = useState(0);
-  const [numeroUnido, setNumeroUnido]=useState(0)
+  const [tecla, setTecla] = useState("");
 
-  const addNumeroEntero=(NumeroUnido)=>{
-    console.log("NumeroUnido en addNumeroEntero",NumeroUnido )
-    setNumeroUnido(NumeroUnido)}
+  // const [numeroUnido, setNumeroUnido]=useState(0)
 
-  
-
-  const addNumer = (newNumber) => {
-    setNumArray([...numArray, newNumber]);
-
-    let numeroEntero=[]
-    numArray.map((object)=>{
-      console.log("object de addNumber",object)
-      numeroEntero.push(object.numero)
-
-    })
-    console.log("addNumer",numeroEntero)
-    addNumeroEntero(parseInt(numeroEntero.join('')))
+  const agregarCaracter = (simbolo) => {
+    setTecla(simbolo);
+    setNumArray([...numArray, { numero: simbolo, id: idx++ }]);
   };
 
-  const agregarCarcter = (simbolo) => {
-    const numAgregar = { id: letId++, numero: simbolo };
-    addNumer(numAgregar);
+  const handelClick = () => {
+    const path = "1243.888";
+    const pattern = /^[+-]?\d+(\.\d+)?$/;
+
+    const match = path.match(pattern);
+    console.log(match);
   };
-
-  const sumar = () => {
-    setNumero1(parseInt(numArray.join(""), 10));
-    setNumArray("+");
-  };
-
-  // numArray.map((numero)=>{
-  //   let numeroJuntos=[]
-  //   numeroJuntos.push(numero)
-  //   console.log(numeroJuntos)
-
-  // })
-  console.log(numArray)
-  console.log("Este es numero Unido",numeroUnido)
 
   return (
     <>
       <div id="result" className="display">
-        {numero1}
+        out
       </div>
+
+      <button value="/" onClick={handelClick}>
+        Boton
+      </button>
+
       <div id="operacion" className="display">
-       {numeroUnido}
+        In{numArray.map((item) => item.numero)}
       </div>
       <div className="rejilla">
         <Tecla simbolo={"Ac"} pulsa={() => setNumArray([])} />
-        <Tecla simbolo={"/"} pulsa={agregarCarcter} />
-        <Tecla simbolo={"8"} pulsa={agregarCarcter} />
-        <Tecla simbolo={"9"} pulsa={agregarCarcter} />
-        <Tecla simbolo={"7"} pulsa={agregarCarcter} />
-        <Tecla simbolo={"."} pulsa={agregarCarcter} />
-        <Tecla simbolo={"4"} pulsa={agregarCarcter} />
-        <Tecla simbolo={"5"} pulsa={agregarCarcter} />
-        <Tecla simbolo={"6"} pulsa={agregarCarcter} />
-        <Tecla simbolo={"1"} pulsa={agregarCarcter} />
-        <Tecla simbolo={"2"} pulsa={agregarCarcter} />
-        <Tecla simbolo={"3"} pulsa={agregarCarcter} />
-        <Tecla simbolo={"0"} pulsa={agregarCarcter} />
-        <Tecla simbolo={"x"} pulsa={agregarCarcter} />
-        <Tecla simbolo={"+"} pulsa={sumar} />
-        <Tecla simbolo={"-"} pulsa={agregarCarcter} />
-        <Tecla simbolo={"="} pulsa={agregarCarcter} />
+        <Tecla simbolo={"/"} pulsa={agregarCaracter} />
+        <Tecla simbolo={"8"} pulsa={agregarCaracter} />
+        <Tecla simbolo={"9"} pulsa={agregarCaracter} />
+        <Tecla simbolo={"7"} pulsa={agregarCaracter} />
+        <Tecla simbolo={"."} pulsa={agregarCaracter} />
+        <Tecla simbolo={"4"} pulsa={agregarCaracter} />
+        <Tecla simbolo={"5"} pulsa={agregarCaracter} />
+        <Tecla simbolo={"6"} pulsa={agregarCaracter} />
+        <Tecla simbolo={"1"} pulsa={agregarCaracter} />
+        <Tecla simbolo={"2"} pulsa={agregarCaracter} />
+        <Tecla simbolo={"3"} pulsa={agregarCaracter} />
+        <Tecla simbolo={"0"} pulsa={agregarCaracter} />
+        <Tecla simbolo={"x"} pulsa={agregarCaracter} />
+        <Tecla simbolo={"+"} pulsa={agregarCaracter} />
+        <Tecla simbolo={"-"} pulsa={agregarCaracter} />
+        <Tecla simbolo={"="} pulsa={agregarCaracter} />
       </div>
     </>
   );
