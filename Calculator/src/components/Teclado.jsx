@@ -15,36 +15,55 @@ const Teclado = () => {
   // }
 
   const [numArray, setNumArray] = useState([]);
-  const [tecla, setTecla] = useState("");
+  const [enter, setEnter] = useState(0);
+  const [out, setOut] = useState(0);
 
   // const [numeroUnido, setNumeroUnido]=useState(0)
 
   const agregarCaracter = (simbolo) => {
-    setTecla(simbolo);
-    setNumArray([...numArray, { numero: simbolo, id: idx++ }]);
+    setNumArray([...numArray, simbolo]);
   };
 
-  const handelClick = () => {
-    const path = "1243.888";
-    const pattern = /^[+-]?\d+(\.\d+)?$/;
-
-    const match = path.match(pattern);
-    console.log(match);
+  const handelClick = (e) => {
+    console.log(e.target.value);
+    const texto = numArray.join("");
+    console.log(`Esto es el array si separadores ${texto}`);
+    const numero = parseFloat(texto.match(/-?\d+(\.\d+)?/g).join(""));
+    console.log(`Esto es el array sin signos ${numero}`);
+    setOut(numero);
+    console.log(typeof numero);
+  };
+  const handelOut = (e) => {
+    setOut(e.target.value);
+  };
+  const handelEnter = (e) => {
+    setEnter(e.target.value);
   };
 
   return (
     <>
-      <div id="result" className="display">
-        out
+      <div>
+        <input
+          value={out}
+          readOnly={true}
+          onChange={handelOut}
+          id="out"
+          type="text"
+        />
+
+        <input
+          value={numArray.join("")}
+          onChange={handelEnter}
+          id="enter"
+          type="text"
+          readOnly={true}
+        />
       </div>
 
       <button value="/" onClick={handelClick}>
         Boton
       </button>
 
-      <div id="operacion" className="display">
-        In{numArray.map((item) => item.numero)}
-      </div>
       <div className="rejilla">
         <Tecla simbolo={"Ac"} pulsa={() => setNumArray([])} />
         <Tecla simbolo={"/"} pulsa={agregarCaracter} />
