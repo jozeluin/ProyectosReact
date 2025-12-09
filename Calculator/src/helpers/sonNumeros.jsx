@@ -4,7 +4,7 @@ const sonNumeros = (e) => {
    const regex = /^\d+$/;
    console.log(e.match(regex) ? true : false);
 
- return
+ return e.match(regex) ? true : false;
  // e.match(regex) ? true : false;
 }
 

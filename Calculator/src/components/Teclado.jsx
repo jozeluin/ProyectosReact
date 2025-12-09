@@ -13,100 +13,120 @@ import pruebaArrayMap from "../helpers/pruebaArrayMap";
 // const numeroFiltrado = parseFloat(texto.match(/-?\d+(\.\d+)?/g));
 
 const Teclado = () => {
- 
+  const [formula, setFormula] = useState([]);
+  const [num, setnum] = useState([]);
+  const [numin, setNumin] = useState([]); // lo que se muestra en el
+  let deposito = [];
 
- 
-  const [out, setOut] = useState([]);
-
-  const [numin, setNumin] = useState([]); // lo que se muestra en el input
-
-  const actulizacionOut=()=>setOut(numin.join(""));
-
-  useEffect(() => {
-   
-    setOut(numin.join(""));
-
-  }, [numin]);
-  
-  const crearArray = (e) => {
-
-
-    switch (e.target.value) {
-      
-      
-      case ("+"):
-      case ("-"):
-      case ("x"):
-      case ("/"):
-
-        if(numin.length === 0 ){//caso primer digito es un signo
-          setNumin([...numin, e.target.value]);
-        }else{
-          // setOut((c)=> [...c , numin.join("")]);
-          setNumin((c)=>c = [""])
-          setNumin((c)=>[...c, e.target.value])
-
-        }
-
-       break;
-
-      // case "-": 
-      // case "x":
-      // case "/":
-      case ".":
-         if(numin.length === 0){/* && esUnPunto(e.target.value)){//caso primer digito es un signo*/
-           let valor=e.target.value;
-           valor == "." ? valor="0." : valor;//si el primer valor es un punto lo convertimos en "0."
-           setNumin((c)=>[...c, valor])
-          
-         }else if (numin.length > 0){
-           soloUnPunto(numin.join("")) && setNumin([...numin, e.target.value])
-         }
-        break;
-        default:
-          // if(numin.length === 0 ){
-          //   setNumin(...numin,"")
-          // } 
-         //setOut((c)=> c + numin.join(""));
-          setNumin([])
-          setNumin([...numin, e.target.value]);
-          //setOut((c)=> c + numin.join(""));
-        break;
-    }
-
-       
-
-    // if(numin.length === 0 && esUnPunto(e.target.value)){//caso primer digito es un signo
-    //   let valor= signosSiNo(e.target.value);
-    //   valor == " ." ? valor="0." : valor;//si el primer valor es un punto lo convertimos en "0."
-    //    setNumin([...numin, valor]);
-    // } else {
-    //    soloUnPunto(numin.join("")) && setNumin([...numin, e.target.value])
-   
-    // }
-    
-    
-    return;
+  const actuNumIn = (valor) => {
+    setNumin((c) => [...c, valor]);
   };
 
-  
+  const crearNumero = (e) => {
+    
+   
+   if (esUnPunto(e.target.value) && numin.length === 0 && soloUnPunto(numin.join(""))) {
+    actuNumIn("0.");
+    return;
+    }
+
+  if(sonNumeros(e.target.value)||(esUnPunto(e.target.value)&& soloUnPunto(numin.join("")))){
+    console.log("es un numero");
+    actuNumIn(e.target.value);
+    return;
+  }
+  if(numin.length === 0 && signosSiNo(e.target.value)){
+    actuNumIn(e.target.value);
+    return;
+  }
+
+
+    
  
 
-  const prueba = () => {
-    setOut((c)=> [...c , numin.join("")]);
-    console.log(out)
-  }
     
-  const mostrarProb = () => {console.log(signosSiNo(numin.join("")))};
+    return;
+    // switch (e.target.value) {
+    //   case "+":
+    //   case "-":
+    //   case "x":
+    //   case "/":
+    //     if (numin.length === 0) {
+    //       //caso primer digito es un signo
+    //       setNumin([...numin, e.target.value]);
+    //     } else if (numin.length > 0) {
+    //       console.log("estoy en dividir");
+    //       //setOut((c)=> [...c , numin.join("")]);
+    //       setNumin([""]);
+    //        setNumin([...numin, e.target.value]);
 
-  const puestaAZero = () => setNumin([0]);
+    //        console.log("despues de limpiar numin", numin);
+    //        console.log(out)
+    //        setOut((c) => [...c, numin.join("")]); //guardamos el numero anterior en out
+    //        console.log(out)
+    //     }
+
+    //     break;
+
+    //   // case "-":
+    //   // case "x":
+    //   // case "/":
+    //   case ".":
+    //     if (numin.length === 0) {
+    //       /* && esUnPunto(e.target.value)){//caso primer digito es un signo*/
+    //       let valor = e.target.value;
+    //       valor == "." ? (valor = "0.") : valor; //si el primer valor es un punto lo convertimos en "0."
+    //       setNumin((c) => [...c, valor]);
+    //     } else if (numin.length > 0) {
+    //       soloUnPunto(numin.join("")) && setNumin([...numin, e.target.value]);
+    //     }
+    //     break;
+    //   default:
+    //     // if(numin.length === 0 ){
+    //     //   setNumin(...numin,"")
+    //     // }
+    //     //setOut((c)=> c + numin.join(""));
+    //     setNumin([]);
+
+    //     setNumin([...numin, e.target.value]);
+    //     //setOut((c)=> c + numin.join(""));
+    //     break;
+    // }
+  };
+  
+
+  console.log("deposito", deposito);
+  const prueba = () => {
+    puestaAZero();
+  };
+
+  const mostrarProb = () => {
+    console.log(signosSiNo(numin.join("")));
+  };
+
+  const puestaAZero = () => {
+    setNumin([]);
+  };
   //console.log(numArray);
   return (
     <div className="contenedor">
       <div>
-        
-        <input className="misDisplays"  value={out} readOnly={true}  id="display" type="text" placeholder="Out" />
-        <input className="misDisplays"/* value={numArray.join("")}*/value={numin.join("")} id="in" type="text"readOnly={true} placeholder="In" />
+        <input
+          className="misDisplays"
+          value={formula}
+          readOnly={true}
+          id="display"
+          type="text"
+          placeholder="Out"
+        />
+        <input
+          className="misDisplays"
+          /* value={numArray.join("")}*/ value={numin.join("")}
+          id="in"
+          type="text"
+          readOnly={true}
+          placeholder="In"
+        />
       </div>
       <button onClick={prueba}>prueba</button>
       <button onClick={mostrarProb}>MostrarProb</button>
@@ -115,49 +135,49 @@ const Teclado = () => {
         <button id="clear " value="Ac" onClick={puestaAZero}>
           Ac
         </button>
-        <button id="divide" value="/" onClick={crearArray}>
+        <button id="divide" value="/" onClick={crearNumero}>
           /
         </button>
-        <button id="eight" value="8" onClick={crearArray}>
+        <button id="eight" value="8" onClick={crearNumero}>
           8
         </button>
-        <button id="nine" value="9" onClick={crearArray}>
+        <button id="nine" value="9" onClick={crearNumero}>
           9
         </button>
-        <button id="seven" value="7" onClick={crearArray}>
+        <button id="seven" value="7" onClick={crearNumero}>
           7
         </button>
-        <button id="decimal" value="." onClick={crearArray}>
+        <button id="decimal" value="." onClick={crearNumero}>
           .
         </button>
-        <button id="four" value="4" onClick={crearArray}>
+        <button id="four" value="4" onClick={crearNumero}>
           4
         </button>
-        <button id="five" value="5" onClick={crearArray}>
+        <button id="five" value="5" onClick={crearNumero}>
           5
         </button>
-        <button id="six" value="6" onClick={crearArray}>
+        <button id="six" value="6" onClick={crearNumero}>
           6
         </button>
-        <button id="one" value="1" onClick={crearArray}>
+        <button id="one" value="1" onClick={crearNumero}>
           1
         </button>
-        <button id="two" value="2" onClick={crearArray}>
+        <button id="two" value="2" onClick={crearNumero}>
           2
         </button>
-        <button id="three" value="3" onClick={crearArray}>
+        <button id="three" value="3" onClick={crearNumero}>
           3
         </button>
-        <button id="zero" value="0" onClick={crearArray}>
+        <button id="zero" value="0" onClick={crearNumero}>
           0
         </button>
-        <button id="multiply" value="x" onClick={crearArray}>
+        <button id="multiply" value="x" onClick={crearNumero}>
           x
         </button>
-        <button id="add" value="+" onClick={crearArray}>
+        <button id="add" value="+" onClick={crearNumero}>
           +
         </button>
-        <button id="subtract" value="-" onClick={crearArray}>
+        <button id="subtract" value="-" onClick={crearNumero}>
           -
         </button>
         <button id="equals" value="=">
