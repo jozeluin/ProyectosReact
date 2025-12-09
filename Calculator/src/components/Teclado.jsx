@@ -3,7 +3,7 @@ import Tecla from "./tecla";
 import "../App.css";
 
 import Hijo from "./Hijo";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import signosSiNo from "../helpers/signosSiNo";
 import soloUnPunto from "../helpers/soloUnPunto";
 import sonNumeros from "../helpers/sonNumeros";
@@ -13,22 +13,31 @@ import pruebaArrayMap from "../helpers/pruebaArrayMap";
 // const numeroFiltrado = parseFloat(texto.match(/-?\d+(\.\d+)?/g));
 
 const Teclado = () => {
-  const [operadores, setOperadores] = useState([]);
-  const [numeros, setNumeros] = useState([]); //numeros con los que operaremos
+ 
 
-  const [numArray, setNumArray] = useState([]);
-  const [enter, setEnter] = useState(0);
+ 
   const [out, setOut] = useState([]);
 
   const [numin, setNumin] = useState([]); // lo que se muestra en el input
 
+  const actulizacionOut=()=>setOut(numin.join(""));
+
+  useEffect(() => {
+   
+    setOut(numin.join(""));
+
+  }, [numin]);
   
   const crearArray = (e) => {
 
 
     switch (e.target.value) {
       
-      case "+":
+      
+      case ("+"):
+      case ("-"):
+      case ("x"):
+      case ("/"):
 
         if(numin.length === 0 ){//caso primer digito es un signo
           setNumin([...numin, e.target.value]);
@@ -41,14 +50,15 @@ const Teclado = () => {
 
        break;
 
-      case "-": 
-      case "x":
-      case "/":
+      // case "-": 
+      // case "x":
+      // case "/":
       case ".":
          if(numin.length === 0){/* && esUnPunto(e.target.value)){//caso primer digito es un signo*/
            let valor=e.target.value;
            valor == "." ? valor="0." : valor;//si el primer valor es un punto lo convertimos en "0."
-           setNumin([...numin, valor]);
+           setNumin((c)=>[...c, valor])
+          
          }else if (numin.length > 0){
            soloUnPunto(numin.join("")) && setNumin([...numin, e.target.value])
          }
@@ -57,9 +67,10 @@ const Teclado = () => {
           // if(numin.length === 0 ){
           //   setNumin(...numin,"")
           // } 
-          setOut((c)=> c + numin.join(""));
-          setNumin((c)=>c = [""])
+         //setOut((c)=> c + numin.join(""));
+          setNumin([])
           setNumin([...numin, e.target.value]);
+          //setOut((c)=> c + numin.join(""));
         break;
     }
 
@@ -88,7 +99,7 @@ const Teclado = () => {
     
   const mostrarProb = () => {console.log(signosSiNo(numin.join("")))};
 
-  const puestaAZero = () => setNumin([""]);
+  const puestaAZero = () => setNumin([0]);
   //console.log(numArray);
   return (
     <div className="contenedor">
