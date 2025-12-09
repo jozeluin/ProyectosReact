@@ -1,4 +1,5 @@
 .rejilla {
+ border: 1px solid #000;
     width: 100px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;

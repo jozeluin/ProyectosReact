@@ -1,9 +1,10 @@
-.display {
-  border: 2px solid red;
-  box-sizing: content-box;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 5px;
-  width: 100px;
+.contenedor {
+  padding: 20px;
+  width: 250px;
+  border: 4px solid rgb(21, 233, 56);
+}
+.misDisplays {
+  text-align: right;
+ 
+
 }
