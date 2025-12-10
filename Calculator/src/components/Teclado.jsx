@@ -41,38 +41,52 @@ const Teclado = () => {
 
   const crearNumero = (e) => {
     
-   
-   if (esUnPunto(e.target.value) && numin.length === 0 && soloUnPunto(numin.join(""))) {
-    actuNumIn("0.");
-    actuFormla("0.");
+   if(numin.length ===0){
+    if (esUnPunto(e.target.value)) {
+      actuNumIn("0.");
+      actuFormla("0.");
     return;
     }
 
-  if(sonNumeros(e.target.value)||(esUnPunto(e.target.value)&& soloUnPunto(numin.join("")))){
-   if(signoAnterior){
-    BorrarNumin();
-    signoAnteriorSiNo();
-  }
-    actuNumIn(e.target.value);
-    actuFormla(e.target.value);
+     if(signosSiNo(e.target.value)){
+        actuNumIn(e.target.value);
+        if(signoMasMenos(e.target.value))
+        actuFormla(e.target.value);
     return;
-  }
-  if(numin.length === 0 && signosSiNo(e.target.value)){
+     }
+   }
+
+    ////////////////////////////////////////numin.length >0
+   if(sonNumeros(e.target.value)){
+    actuNumIn(e.target.value);}
+
+  if(esUnPunto(e.target.value) && soloUnPunto(numin.join(""))){
+  //  if(signoAnterior){
+  //   BorrarNumin();
+  //   signoAnteriorSiNo();
+  // }
     actuNumIn(e.target.value);
-    actuFormla(e.target.value);
-    return;
-  }
-  if(numin.length >0 && signosSiNo(e.target.value)){
-    BorrarNumin();
-    if(numin[numin.length -1] === "-" || numin[numin.length -1] === "+"){
-      actuNumIn(e.target.value);
-      actuFormla(e.target.value);
-  
-    }
-    actuNumIn(e.target.value);
-    actuFormla(e.target.value);
     
-    signoAnteriorSiNo();
+    return;
+  }
+ 
+
+   
+
+
+  if(signosSiNo(e.target.value) ){
+    actuNumIn(e.target.value);
+actuFormla(numin.join(""));
+   // BorrarNumin();
+  //   //if(numin[numin.length -1] === "-" || numin[numin.length -1] === "+")
+      
+
+ 
+  //  //}
+  //   //actuNumIn(e.target.value);
+  //  // actuFormla(e.target.value);
+    
+  //   //signoAnteriorSiNo();
     return;
   }
 
