@@ -9,6 +9,7 @@ import soloUnPunto from "../helpers/soloUnPunto";
 import sonNumeros from "../helpers/sonNumeros";
 import esUnPunto from "../helpers/esUnPunto";
 import pruebaArrayMap from "../helpers/pruebaArrayMap";
+import signoMasMenos from "../helpers/signoMasMenos";
 //^[+-]?\d+(\.\d+)?$ expresion regular para busca un numbero precedido o no por un signo
 // const numeroFiltrado = parseFloat(texto.match(/-?\d+(\.\d+)?/g));
 
@@ -16,27 +17,62 @@ const Teclado = () => {
   const [formula, setFormula] = useState([]);
   const [num, setnum] = useState([]);
   const [numin, setNumin] = useState([]); // lo que se muestra en el
-  let deposito = [];
+  const[signoAnterior,setSignoAnterior]= useState(false);
+ 
 
   const actuNumIn = (valor) => {
     setNumin((c) => [...c, valor]);
   };
+  const BorrarNumin=()=>{
+    setNumin([]);
+  }
+
+  const actuFormla=(valor) => {
+    setFormula((c) => [...c, valor]);
+  }
+  const signoAnteriorSiNo=()=>{
+    if(signoAnterior){
+      setSignoAnterior(false);
+    }else{
+      setSignoAnterior(true);
+    }
+  }
+
 
   const crearNumero = (e) => {
     
    
    if (esUnPunto(e.target.value) && numin.length === 0 && soloUnPunto(numin.join(""))) {
     actuNumIn("0.");
+    actuFormla("0.");
     return;
     }
 
   if(sonNumeros(e.target.value)||(esUnPunto(e.target.value)&& soloUnPunto(numin.join("")))){
-    console.log("es un numero");
+   if(signoAnterior){
+    BorrarNumin();
+    signoAnteriorSiNo();
+  }
     actuNumIn(e.target.value);
+    actuFormla(e.target.value);
     return;
   }
   if(numin.length === 0 && signosSiNo(e.target.value)){
     actuNumIn(e.target.value);
+    actuFormla(e.target.value);
+    return;
+  }
+  if(numin.length >0 && signosSiNo(e.target.value)){
+    BorrarNumin();
+    if(numin[numin.length -1] === "-" || numin[numin.length -1] === "+"){
+      actuNumIn(e.target.value);
+      actuFormla(e.target.value);
+  
+    }
+    actuNumIn(e.target.value);
+    actuFormla(e.target.value);
+    
+    signoAnteriorSiNo();
     return;
   }
 
@@ -95,7 +131,6 @@ const Teclado = () => {
   };
   
 
-  console.log("deposito", deposito);
   const prueba = () => {
     puestaAZero();
   };
@@ -113,7 +148,7 @@ const Teclado = () => {
       <div>
         <input
           className="misDisplays"
-          value={formula}
+          value={formula.join("")}
           readOnly={true}
           id="display"
           type="text"
