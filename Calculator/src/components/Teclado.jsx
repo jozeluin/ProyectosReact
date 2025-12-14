@@ -14,136 +14,63 @@ import signoMasMenos from "../helpers/signoMasMenos";
 // const numeroFiltrado = parseFloat(texto.match(/-?\d+(\.\d+)?/g));
 
 const Teclado = () => {
-  const [formula, setFormula] = useState([]);
+  const [formula, setFormula] = useState([0]);
   const [num, setnum] = useState([]);
   const [numin, setNumin] = useState([]); // lo que se muestra en el
   const[signoAnterior,setSignoAnterior]= useState(false);
+  const[cuenta,setCuenta]= useState([{
+    id:0,
+    numero:0,
+    decimal:false,
+    signOperador:"+"
+  }]);
  
 
   const actuNumIn = (valor) => {
     setNumin((c) => [...c, valor]);
+    
   };
   const BorrarNumin=()=>{
     setNumin([]);
   }
-
-  const actuFormla=(valor) => {
-    setFormula((c) => [...c, valor]);
-  }
-  const signoAnteriorSiNo=()=>{
-    if(signoAnterior){
-      setSignoAnterior(false);
-    }else{
-      setSignoAnterior(true);
-    }
+  const BorrarFormula=()=>{
+    setFormula([])
   }
 
-
+  
+  
+ const actuFormla=() => {
+    setFormula((c)=>[...c,numin]);
+  }
+  
+  
+ 
   const crearNumero = (e) => {
     
-   if(numin.length ===0){
-    if (esUnPunto(e.target.value)) {
-      actuNumIn("0.");
-      actuFormla("0.");
-    return;
+    if(numin.length===0){
+      if( signoMasMenos(e.target.value) && !signoAnterior ){
+        setSignoAnterior(true);
+        actuNumIn(e.target.value)
+      }else if(signoAnterior && signoMasMenos(e.target.value) && e.target.value!==numin.length-1){
+        BorrarNumin();
+        actuNumIn(e.target.value)
+      }
+    return
     }
-
-     if(signosSiNo(e.target.value)){
-        actuNumIn(e.target.value);
-        if(signoMasMenos(e.target.value))
-        actuFormla(e.target.value);
-    return;
-     }
-   }
-
-    ////////////////////////////////////////numin.length >0
-   if(sonNumeros(e.target.value)){
-    actuNumIn(e.target.value);}
-
-  if(esUnPunto(e.target.value) && soloUnPunto(numin.join(""))){
-  //  if(signoAnterior){
-  //   BorrarNumin();
-  //   signoAnteriorSiNo();
-  // }
-    actuNumIn(e.target.value);
+    if (numin.length > 0 && signoAnterior && signoMasMenos(e.target.value) && e.target.value!==numin.length-1) {
+      BorrarNumin();
+      actuNumIn(e.target.value);
+      return
+    }
+    if(numin.length>0 && sonNumeros(e.target.value) ){
+      actuNumIn(e.target.value);
+      BorrarFormula()
+      actuFormla();
+    return
+    }
     
-    return;
+
   }
- 
-
-   
-
-
-  if(signosSiNo(e.target.value) ){
-    actuNumIn(e.target.value);
-actuFormla(numin.join(""));
-   // BorrarNumin();
-  //   //if(numin[numin.length -1] === "-" || numin[numin.length -1] === "+")
-      
-
- 
-  //  //}
-  //   //actuNumIn(e.target.value);
-  //  // actuFormla(e.target.value);
-    
-  //   //signoAnteriorSiNo();
-    return;
-  }
-
-
-    
- 
-
-    
-    return;
-    // switch (e.target.value) {
-    //   case "+":
-    //   case "-":
-    //   case "x":
-    //   case "/":
-    //     if (numin.length === 0) {
-    //       //caso primer digito es un signo
-    //       setNumin([...numin, e.target.value]);
-    //     } else if (numin.length > 0) {
-    //       console.log("estoy en dividir");
-    //       //setOut((c)=> [...c , numin.join("")]);
-    //       setNumin([""]);
-    //        setNumin([...numin, e.target.value]);
-
-    //        console.log("despues de limpiar numin", numin);
-    //        console.log(out)
-    //        setOut((c) => [...c, numin.join("")]); //guardamos el numero anterior en out
-    //        console.log(out)
-    //     }
-
-    //     break;
-
-    //   // case "-":
-    //   // case "x":
-    //   // case "/":
-    //   case ".":
-    //     if (numin.length === 0) {
-    //       /* && esUnPunto(e.target.value)){//caso primer digito es un signo*/
-    //       let valor = e.target.value;
-    //       valor == "." ? (valor = "0.") : valor; //si el primer valor es un punto lo convertimos en "0."
-    //       setNumin((c) => [...c, valor]);
-    //     } else if (numin.length > 0) {
-    //       soloUnPunto(numin.join("")) && setNumin([...numin, e.target.value]);
-    //     }
-    //     break;
-    //   default:
-    //     // if(numin.length === 0 ){
-    //     //   setNumin(...numin,"")
-    //     // }
-    //     //setOut((c)=> c + numin.join(""));
-    //     setNumin([]);
-
-    //     setNumin([...numin, e.target.value]);
-    //     //setOut((c)=> c + numin.join(""));
-    //     break;
-    // }
-  };
-  
 
   const prueba = () => {
     puestaAZero();
