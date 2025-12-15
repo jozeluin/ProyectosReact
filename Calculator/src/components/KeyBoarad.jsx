@@ -90,8 +90,11 @@ const KeyBoarad = () => {
     const valor=e.target.value
     if(resOn){
      
-      BorrarTodo();
+      //BorrarTodo();
+      setNumin(valor)
       setResOn(false)
+      
+      return;
     }
     if(formula[0]===0)
       setFormula([])
@@ -185,14 +188,17 @@ return
   const resultado=(a)=>{
     let e=a.map(item=>{
       if(typeof item === 'number'){
-        return item.toString
+        return item.toString()
       }else{
         return item
       }
+
     })
+    
 
     const regex=/=|0=/g;
-    if(!regex.test(e)){
+    const regex2=/0=/g;
+    if(!regex.test(e) || regex2.test(e)){
       console.log("he psado por aqui")
       return
     } 
@@ -250,8 +256,7 @@ numin.map((item)=>console.log(item) )
         <input
           className="misDisplays"
           /* value={numArray.join("")}*/ value={
-            typeof numin === 'number' ? numin :
-            numin.join("")}
+            typeof numin === 'number' ? numin : numin.length==1 ? numin : numin.join("")}
           id="display"
           type="text"
           readOnly={true}
