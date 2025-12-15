@@ -8,7 +8,7 @@ import signosSiNo from "../helpers/signosSiNo";
 import soloUnPunto from "../helpers/soloUnPunto";
 import sonNumeros from "../helpers/sonNumeros";
 import esUnPunto from "../helpers/esUnPunto";
-import pruebaArrayMap from "../helpers/pruebaArrayMap";
+
 import signoMasMenos from "../helpers/signoMasMenos";
 import operCompleto from "../helpers/operCompleto";
 //^[+-]?\d+(\.\d+)?$ expresion regular para busca un numbero precedido o no por un signo
@@ -21,12 +21,7 @@ const KeyBoarad = () => {
   const[colocacion,setColocacion]= useState(false);
   const[procede,setProcede]=useState(false)
   
-  const[cuenta,setCuenta]= useState([{
-    id:0,
-    numero:0,
-    decimal:false,
-    signOperador:"+"
-  }]);
+ 
 
   useEffect(()=>{
     
@@ -238,9 +233,7 @@ return
 numin.map((item)=>console.log(item) )
   };
 
-  const puestaAZero = () => {
-    setNumin([]);
-  };
+  
   //console.log(numArray);
   return (
     <div className="contenedor">
