@@ -7,34 +7,60 @@ import { useState } from "react";
 // const numeroFiltrado = parseFloat(texto.match(/-?\d+(\.\d+)?/g));
 
 const Calcu = () => {
+  /**
+   * signosMatematicos
+   */
   const isOperator = /[x/+-]/
+  ,finalizaOperador= /[x+-/]$/
+  ,finOperNeg = /\d[x/+-]{1}-$/
 
-  
+
+ 
 const [state,setState]=useState({
+  /**
+   * valor en display
+   */
     valorActual:"0",
     valorPrevio:"0",
     formula:"",
     signoActual:"pos",
     ultimaTecla:"",
+    evaluado:false
 })
 
 const evaluar=()=>{
     
 }
 
-const operador=()=>{
+const operador=(e)=>{
+  const val=e.target.value;
+  const{formula:f,valorPrevio:vp,evaluado:ev}=state
+  setState({...state,
+    evaluado:false,
+    valorActual:val
+    
+  })
+ ev ? setState({
+  formula: vp + val 
+}) : finalizaOperador.test(f) ? finOperNeg.test(f) ? "-" !== val && setState({
+  formula: vp + val
+}) : setState({
+   formula: (finOperNeg.test(f+val) ? f : vp )+val
+  }) : setState({
+   valorPrevio:f ,
+  formula: f+ val
+})
+
 
 }
 
 const inNumero=(e)=>{
   
  const val=e.target.value;
-/**
- * @property {string} state.formula - La formula
- */
+
  const {formula:f,valorActual:v}=state
     setState({...state, 
-      //si lo que habia en valorActual es = 0 o si es un operador val va a valor actual si no , se añade a lo que habia
+      //si lo que habia en valorActual es = 0 o si es un operador val va a valorActual(e.target.value) si no , se añade a lo que habia
       valorActual:"0" === v || isOperator.test(v) ? val : v + val,
       formula:"0" === v && "0" === val ? "" === f ? val:f:/([^.0-9]0|^0)$/.test(f) ? f.slice(0, -1) + val : f + val 
     
