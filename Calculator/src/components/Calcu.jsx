@@ -7,7 +7,9 @@ import { useState } from "react";
 // const numeroFiltrado = parseFloat(texto.match(/-?\d+(\.\d+)?/g));
 
 const Calcu = () => {
+  const isOperator = /[x/+-]/
 
+  
 const [state,setState]=useState({
     valorActual:"0",
     valorPrevio:"0",
@@ -24,13 +26,24 @@ const operador=()=>{
 
 }
 
-const inNumero=()=>{
-
+const inNumero=(e)=>{
+  
+ const val=e.target.value;
+/**
+ * @property {string} state.formula - La formula
+ */
+ const {formula:f,valorActual:v}=state
+    setState({...state, 
+      //si lo que habia en valorActual es = 0 o si es un operador val va a valor actual si no , se añade a lo que habia
+      valorActual:"0" === v || isOperator.test(v) ? val : v + val,
+      formula:"0" === v && "0" === val ? "" === f ? val:f:/([^.0-9]0|^0)$/.test(f) ? f.slice(0, -1) + val : f + val 
+    
+    })
 }
 
-const inicializar=(e)=>{
+const inicializar=()=>{
     
-    const valorIntroducido=e.target.value;
+   
 
 
 }
@@ -44,7 +57,7 @@ const inicializar=(e)=>{
       <div>
         <input
           className="misDisplays"
-         
+         value={state.formula}
           readOnly={true}
           id="out"
           type="text"
@@ -52,7 +65,7 @@ const inicializar=(e)=>{
         />
         <input
           className="misDisplays"
-         
+         value={state.valorActual}
           id="display"
           type="text"
           readOnly={true}
