@@ -11,8 +11,14 @@ const Calcu = () => {
    * signosMatematicos
    */
   const isOperator = /[x/+-]/
-  ,finalizaOperador= /[x+-/]$/
-  ,finOperNeg = /\d[x/+-]{1}-$/
+  /**
+   * k finaliza con un operador matematico
+   */
+   const finalizaOperador= /[x+-/]$/
+   /**
+    * Numero con signo matematico k finaliza con un signo negativo
+    */
+  const finOperNeg = /\d[x/+-]{1}-$/
 
 
  
@@ -31,7 +37,10 @@ const [state,setState]=useState({
 const evaluar=()=>{
     
 }
-
+/**
+ * 
+ * @param {*} e  tecla pulsada
+ */
 const operador=(e)=>{
   const val=e.target.value;
   const{formula:f,valorPrevio:vp,evaluado:ev}=state
@@ -40,12 +49,20 @@ const operador=(e)=>{
     valorActual:val
     
   })
+  //Si le he dado ya al igual
  ev ? setState({
+  //formula=valorPrevio+valorActual
   formula: vp + val 
+  //Si no le he dado al igual entonces, preguntamos si la formula finaliza con un operador matematico
+  //Si es asi volvemos a preguntar si es un digito seguido de signo matematico seguido de menos
+  //Despues preguntamos si el signo menos No es igual a lo que hemos introducido, si es asi la fomula=ValorPrevio+valorIntroducido
 }) : finalizaOperador.test(f) ? finOperNeg.test(f) ? "-" !== val && setState({
   formula: vp + val
+  //Si anteriormente habia un signo "-",entonces testeamos si la formula con lo que introducimos termina en "-", si es asi es solo la formula, y despues se
+  //agrega ese signo.
 }) : setState({
    formula: (finOperNeg.test(f+val) ? f : vp )+val
+   //Opcion por defecto.(ev=false) si no hemos dado al "=" y es un numero seguido de un operador.
   }) : setState({
    valorPrevio:f ,
   formula: f+ val
