@@ -10,125 +10,120 @@ const Calcu = () => {
   /**
    * signosMatematicos
    */
-  const isOperator = /[x/+-]/
+  const isOperator = /[x/+-]/;
   /**
    * k finaliza con un operador matematico
    */
-   const finalizaOperador= /[x+-/]$/
-   /**
-    * Numero con signo matematico k finaliza con un signo negativo
-    */
-  const finOperNeg = /\d[x/+-]{1}-$/
-
-
- 
-const [state,setState]=useState({
+  const finalizaOperador = /[x+-/]$/;
   /**
-   * valor en display
+   * Numero con signo matematico k finaliza con un signo negativo
    */
-    valorActual:"0",
-    valorPrevio:"0",
-    formula:"",
-    signoActual:"pos",
-    ultimaTecla:"",
-    evaluado:false
-})
+  const finOperNeg = /\d[x/+-]{1}-$/;
 
-const evaluar=()=>{
-  let formula=state.formula
-  while(finalizaOperador.test(formula))
-    formula=formula.slice(0-1)
-  let resultado=eval(formula)
-  setState({...state,
-    formula:formula,
-    valorActual:resultado,
-    evaluado:true
-  })
-}
-/**
- * 
- * @param {*}   e tecla pulsada
- */
-const operador=(e)=>{
-  const val=e.target.value;
-  const{formula:f,valorPrevio:vp,evaluado:ev}=state
-  setState({...state,
-    evaluado:false,
-    valorActual:val
-    
-  })
-  //Si le he dado ya al igual
- ev ? setState({
-  //formula=valorPrevio+valorActual
-  formula: vp + val 
-  //Si no le he dado al igual entonces, preguntamos si la formula finaliza con un operador matematico
-  //Si es asi volvemos a preguntar si es un digito seguido de signo matematico seguido de menos
-  //Despues preguntamos si el signo menos No es igual a lo que hemos introducido, si es asi la fomula=ValorPrevio+valorIntroducido
-}) : finalizaOperador.test(f) ? finOperNeg.test(f) ? "-" !== val && setState({
-  formula: vp + val
-  //Si anteriormente habia un signo "-",entonces testeamos si la formula con lo que introducimos termina en "-", si es asi es solo la formula, y despues se
-  //agrega ese signo.
-}) : setState({
-   formula: (finOperNeg.test(f+val) ? f : vp )+val
-   //Opcion por defecto.(ev=false) si no hemos dado al "=" y es un numero seguido de un operador.
-  }) : setState({
-   valorPrevio:f,
-  formula: f+ val
-})
+  const [state, setState] = useState({
+    /**
+     * valor en display
+     */
+    valorActual: "0",
+    valorPrevio: "0",
+    formula: "",
+    signoActual: "pos",
+    ultimaTecla: "",
+    evaluado: false,
+  });
+
+  const evaluar = () => {
+    let formula = state.formula;
+    while (finalizaOperador.test(formula)) formula = formula.slice(0 - 1);
+    let resultado = eval(formula);
+    setState({
+      ...state,
+      formula: formula,
+      valorActual: resultado,
+      evaluado: true,
+    });
+  };
+  /**
+   *
+   * @param {*}   e tecla pulsada
+   */
+  const operador = (e) => {
+    const val = e.target.value;
+    const { formula: f, valorPrevio: vp, evaluado: ev } = state;
+    setState({ ...state, evaluado: false, valorActual: val });
+    //Si le he dado ya al igual
+    ev ? setState({...state,formula: vp + val })
+          //formula=valorPrevio+valorActual
+          
+          //Si no le he dado al igual entonces, preguntamos si la formula finaliza con un operador matematico
+          //Si es asi volvemos a preguntar si es un digito seguido de signo matematico seguido de menos
+          //Despues preguntamos si el signo menos No es igual a lo que hemos introducido, si es asi la fomula=ValorPrevio+valorIntroducido
+       
+      : finalizaOperador.test(f) ? finOperNeg.test(f) ? "-" !== val && setState({...state,formula: vp + val})
+           
+      //Si anteriormente habia un signo "-",entonces testeamos si la formula con lo que introducimos termina en "-", si es asi es solo la formula, y despues se
+            //agrega ese signo.
+
+        : setState({...state,formula: (finOperNeg.test(f + val) ? f : vp) + val })
+            //Opcion por defecto.(ev=false) si no hemos dado al "=" y es un numero seguido de un operador.
+      : setState({...state,
+          valorPrevio: f,
+          formula: f + val,
+          valorActual:val
+        });
+  };
+
+  const inNumero = (e) => {
+    if(!state.valorActual.includes("Limite")){
+      const puls = e.target.value;
+    /**
+     * valorActual: ultima pulsacion
+     */
+    const { formula: f, valorActual: v, evaluado: ev } = state;
+    setState({...state,evaluar:false}) , 
+    v.length>15 ? MaxLimitPul() : ev ? setState({
+      ...state,
+      valorActual:puls,
+      formula:"0" !== puls ? puls:""
+    }):
 
 
-}
-
-const inNumero=(e)=>{
-  
- const puls=e.target.value;
-/**
- * valorActual: ultima pulsacion
- */
- const {formula:f,valorActual:v,evaluado:ev}=state
-
-    setState({...state, 
+    setState({
+      ...state,
       //si lo que habia en valorActual es = 0 o si es un operador val va a valorActual(e.target.value) si no , se añade a lo que habia
-      valorActual:"0" === v || isOperator.test(v) ? puls : v + puls,
-      formula:"0" === v && "0" === puls ? "" === f ? puls:f:/([^.0-9]0|^0)$/.test(f) ? f.slice(0, -1) + puls : f + puls 
+      valorActual: "0" === v || isOperator.test(v) ? puls : v + puls,
+      formula:"0" === v && "0" === puls ? "" === f ? puls: 
+      f: /([^.0-9]0|^0)$/.test(f)? f.slice(0, -1) + puls: f + puls,
+    });
+    }
     
-    })
-}
+  };
 
+  const MaxLimitPul = () => {
+    setState({
+      ...state,
+      valorActual: "Limite Digitos..",
+      valorPrevio: state.valorActual,
+    });
+  };
 
-const MaxLimitPul=()=>{
-  setState({...state,
-    valorActual:"Limite Digitos..",
-    valorPrevio:state.valorActual
-  })
-
-}
-
-const inicializar=()=>{
-  setState({
-    valorActual:"0",
-    valorPrevio:"0",
-    formula:"",
-    signoActual:"+",
-    valorPrevio:"0",
-    evaluado:false
-  })
-    
-   
-
-
-}
-
-
-
-
+  const inicializar = () => {
+    setState({
+      valorActual: "0",
+      valorPrevio: "0",
+      formula: "",
+      signoActual: "+",
+      evaluado: false,
+      ultimaTecla:""
+    });
+  };
 
   return (
     <div className="contenedor">
       <div>
         <input
           className="misDisplays"
-         value={state.formula}
+          value={state.formula}
           readOnly={true}
           id="out"
           type="text"
@@ -136,7 +131,7 @@ const inicializar=()=>{
         />
         <input
           className="misDisplays"
-         value={state.valorActual}
+          value={state.valorActual}
           id="display"
           type="text"
           readOnly={true}
