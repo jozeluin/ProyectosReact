@@ -35,11 +35,19 @@ const [state,setState]=useState({
 })
 
 const evaluar=()=>{
-    
+  let formula=state.formula
+  while(finalizaOperador.test(formula))
+    formula=formula.slice(0-1)
+  let resultado=eval(formula)
+  setState({...state,
+    formula:formula,
+    valorActual:resultado,
+    evaluado:true
+  })
 }
 /**
  * 
- * @param {*} e  tecla pulsada
+ * @param {*}   e tecla pulsada
  */
 const operador=(e)=>{
   const val=e.target.value;
@@ -50,7 +58,6 @@ const operador=(e)=>{
     
   })
   //Si le he dado ya al igual
-  
  ev ? setState({
   //formula=valorPrevio+valorActual
   formula: vp + val 
@@ -65,7 +72,7 @@ const operador=(e)=>{
    formula: (finOperNeg.test(f+val) ? f : vp )+val
    //Opcion por defecto.(ev=false) si no hemos dado al "=" y es un numero seguido de un operador.
   }) : setState({
-   valorPrevio:f ,
+   valorPrevio:f,
   formula: f+ val
 })
 
@@ -74,18 +81,38 @@ const operador=(e)=>{
 
 const inNumero=(e)=>{
   
- const val=e.target.value;
+ const puls=e.target.value;
+/**
+ * valorActual: ultima pulsacion
+ */
+ const {formula:f,valorActual:v,evaluado:ev}=state
 
- const {formula:f,valorActual:v}=state
     setState({...state, 
       //si lo que habia en valorActual es = 0 o si es un operador val va a valorActual(e.target.value) si no , se añade a lo que habia
-      valorActual:"0" === v || isOperator.test(v) ? val : v + val,
-      formula:"0" === v && "0" === val ? "" === f ? val:f:/([^.0-9]0|^0)$/.test(f) ? f.slice(0, -1) + val : f + val 
+      valorActual:"0" === v || isOperator.test(v) ? puls : v + puls,
+      formula:"0" === v && "0" === puls ? "" === f ? puls:f:/([^.0-9]0|^0)$/.test(f) ? f.slice(0, -1) + puls : f + puls 
     
     })
 }
 
+
+const MaxLimitPul=()=>{
+  setState({...state,
+    valorActual:"Limite Digitos..",
+    valorPrevio:state.valorActual
+  })
+
+}
+
 const inicializar=()=>{
+  setState({
+    valorActual:"0",
+    valorPrevio:"0",
+    formula:"",
+    signoActual:"+",
+    valorPrevio:"0",
+    evaluado:false
+  })
     
    
 
