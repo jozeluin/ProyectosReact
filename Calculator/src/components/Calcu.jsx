@@ -50,6 +50,7 @@ const operador=(e)=>{
     
   })
   //Si le he dado ya al igual
+  
  ev ? setState({
   //formula=valorPrevio+valorActual
   formula: vp + val 
