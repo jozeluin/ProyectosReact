@@ -41,7 +41,8 @@ const Calcu = () => {
     setState({
       ...state,
       formula: formula + "=" + resultado,
-      valorActual: resultado,
+      valorActual: resultado.toString(),
+      valorPrevio:resultado,
       evaluado: true,
     });
   };
@@ -55,7 +56,7 @@ const Calcu = () => {
 
     //Atencion setState({ ...state, evaluado: false, valorActual: val });
     //Si le he dado ya al igual
-    ev? (f = vp + val): //formula=valorPrevio+valorActual
+    ev? f = vp + val: //formula=valorPrevio+valorActual
 
       //Si no le he dado al igual entonces, preguntamos si la formula finaliza con un operador matematico
       //Si es asi volvemos a preguntar si es un digito seguido de signo matematico seguido de menos
@@ -75,7 +76,8 @@ const Calcu = () => {
       ...state,
       evaluado: false,
       valorActual: val,
-      formula: f,
+      formula: f ,
+      valorPrevio:f
     });
   };
 
@@ -87,30 +89,17 @@ const Calcu = () => {
       /**
        * valorActual: ultima pulsacion
        */
-      const { formula: f, valorActual: v, evaluado: ev } = state;
-      setState({ ...state, evaluar: false }),
-        v.length > 15
-          ? MaxLimitPul()
-          : ev
-          ? setState({
-              ...state,
-              valorActual: puls,
-              formula: "0" !== puls ? puls : "",
-            })
-          : setState({
-              ...state,
+      let { formula: f, valorActual: v, evaluado: ev } = state;
+      //setState({ ...state, evaluar: false }),
+        v.length > 15 ? MaxLimitPul() : ev ? (v = puls , f = "0" !== puls ? puls : "" )
+          : 
               //si lo que habia en valorActual es = 0 o si es un operador val va a valorActual(e.target.value) si no , se añade a lo que habia
-              valorActual: "0" === v || isOperator.test(v) ? puls : v + puls,
-              formula:
-                "0" === v && "0" === puls
-                  ? "" === f
-                    ? puls
-                    : f
-                  : /([^.0-9]0|^0)$/.test(f)
-                  ? f.slice(0, -1) + puls
-                  : f + puls,
-            });
+            ( v = "0" === v || isOperator.test(v) ? puls : v + puls,
+              f = "0" === v && "0" === puls ? "" === f ? puls : f : /([^.0-9]0|^0)$/.test(f) ? f.slice(0, -1) + puls: f + puls)
+
+        setState({...state, evaluado:false,valorActual:v,formula:f})    
     }
+    
   };
 
   const MaxLimitPul = () => {
