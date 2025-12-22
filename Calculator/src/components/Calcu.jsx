@@ -37,10 +37,11 @@ const Calcu = () => {
     while (finalizaOperador.test(formula)){
       formula = formula.slice(0 - 1);
     } 
+    formula = formula.replace(/x/g,"*")
     let resultado = eval(formula);
     setState({
       ...state,
-      formula: formula + "=" + resultado,
+      formula: formula.replace(/\*/g,"x") + "=" + resultado,
       valorActual: resultado.toString(),
       valorPrevio:resultado,
       evaluado: true,
@@ -53,31 +54,50 @@ const Calcu = () => {
   const operador = (e) => {
     const val = e.target.value;
     let { formula: f, valorPrevio: vp, evaluado: ev } = state;
+    if(ev){
+      f = vp + val
+    }else{
+      if(finalizaOperador.test(f)){
+        if(finOperNeg.test(f)){
+          if("-"!== val){
+            f=vp+val
+          }
+
+        }else{
+          f = (finOperNeg.test(f + val) ? f : vp) + val
+        }
+      }else{
+        vp=f
+        f=f+val
+        
+      }
+    }
+
+
+
 
     //Atencion setState({ ...state, evaluado: false, valorActual: val });
     //Si le he dado ya al igual
-    ev? f = vp + val: //formula=valorPrevio+valorActual
+    // ev? f = vp + val : finalizaOperador.test(f)? finOperNeg.test(f) ? "-" !== val && (f = vp + val) : f = (finOperNeg.test(f + val) ? f : vp) + val
+    //formula=valorPrevio+valorActual
 
       //Si no le he dado al igual entonces, preguntamos si la formula finaliza con un operador matematico
       //Si es asi volvemos a preguntar si es un digito seguido de signo matematico seguido de menos
       //Despues preguntamos si el signo menos No es igual a lo que hemos introducido, si es asi la fomula=ValorPrevio+valorIntroducido
 
-      finalizaOperador.test(f)
-      ? finOperNeg.test(f)
-        ? "-" !== val && (f = vp + val)
-        : //Si anteriormente habia un signo "-",entonces testeamos si la formula con lo que introducimos termina en "-", si es asi es solo la formula, y despues se
+      
+      
+        //Si anteriormente habia un signo "-",entonces testeamos si la formula con lo que introducimos termina en "-", si es asi es solo la formula, y despues se
           //agrega ese signo.
-
-          (f = (finOperNeg.test(f + val) ? f : vp) + val)
-      : //Opcion por defecto.(ev=false) si no hemos dado al "=" y es un numero seguido de un operador.
-        ((vp = f), (f = f + val));
+       //Opcion por defecto.(ev=false) si no hemos dado al "=" y es un numero seguido de un operador.
+        // :((vp = f), (f = f + val));
 
     setState({
       ...state,
       evaluado: false,
       valorActual: val,
       formula: f ,
-      valorPrevio:f
+      valorPrevio:vp
     });
   };
 
@@ -121,6 +141,21 @@ const Calcu = () => {
     });
   };
 
+  const decimal=()=>{
+    let { formula: f, valorActual: v, evaluado: ev } = state;
+
+
+
+    state.evaluado === true ? (v="0.",f="0.",ev=false ):
+      v.includes(".")||v.includes("Limite")|| ( ev = false) ,
+     (v.includes(".")||v.includes("Limite") && v.length>15 ? MaxLimitPul(): finalizaOperador.test(f)||"0"===v && ""=== f ? (v="0.", f=f+"0.") :
+       ( v=f.match(/(-?\d+\.?\d*)$/)[0] + ".",
+        f=f+".")
+)
+        setState({...state,formula:f,valorActual:v,evaluado:ev})
+
+  }
+
   return (
     <div className="contenedor">
       <div>
@@ -130,7 +165,7 @@ const Calcu = () => {
           readOnly={true}
           id="out"
           type="text"
-          placeholder="out"
+          placeholder="formula"
         />
         <input
           className="misDisplays"
@@ -138,7 +173,7 @@ const Calcu = () => {
           id="display"
           type="text"
           readOnly={true}
-          placeholder="display"
+          placeholder="valorActual"
         />
       </div>
       {/* <button onClick={prueba}>prueba</button>
@@ -160,7 +195,7 @@ const Calcu = () => {
         <button id="seven" value="7" onClick={inNumero}>
           7
         </button>
-        <button id="decimal" value="." onClick={inNumero}>
+        <button id="decimal" value="." onClick={decimal}>
           .
         </button>
         <button id="four" value="4" onClick={inNumero}>
@@ -184,7 +219,7 @@ const Calcu = () => {
         <button id="zero" value="0" onClick={inNumero}>
           0
         </button>
-        <button id="multiply" value="*" onClick={operador}>
+        <button id="multiply" value="x" onClick={operador}>
           x
         </button>
         <button id="add" value="+" onClick={operador}>
