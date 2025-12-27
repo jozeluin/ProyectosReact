@@ -1,5 +1,4 @@
-import "./Teclado.css";
-import Tecla from "./tecla";
+
 import "../App.css";
 import { useState } from "react";
 
